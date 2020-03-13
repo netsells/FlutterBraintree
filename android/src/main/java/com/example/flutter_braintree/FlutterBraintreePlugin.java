@@ -92,18 +92,16 @@ public class FlutterBraintreePlugin implements FlutterPlugin, ActivityAware, Met
       Intent intent = new Intent(activity, FlutterBraintreeCustom.class);
       intent.putExtra("type", "tokenizeCreditCard");
       intent.putExtra("authorization", (String) call.argument("authorization"));
-      assert(call.argument("request") instanceof Map);
-      Map request = (Map) call.argument("request");
-      intent.putExtra("cardNumber", (String) request.get("cardNumber"));
-      intent.putExtra("expirationMonth", (String) request.get("expirationMonth"));
-      intent.putExtra("expirationYear", (String) request.get("expirationYear"));
+      intent.putExtra("cardNumber", (String) call.argument("cardNumber"));
+      intent.putExtra("expirationMonth", (String) call.argument("expirationMonth"));
+      intent.putExtra("expirationYear", (String) call.argument("expirationYear"));
       activity.startActivityForResult(intent, CUSTOM_ACTIVITY_REQUEST_CODE);
     } else if (call.method.equals("requestPaypalNonce")) {
       String authorization = call.argument("authorization");
       Intent intent = new Intent(activity, FlutterBraintreeCustom.class);
       intent.putExtra("type", "requestPaypalNonce");
       intent.putExtra("authorization", (String) call.argument("authorization"));
-      assert(call.argument("request") instanceof Map);
+      assert (call.argument("request") instanceof Map);
       Map request = (Map) call.argument("request");
       intent.putExtra("amount", (String) request.get("amount"));
       intent.putExtra("currencyCode", (String) request.get("currencyCode"));
@@ -120,7 +118,7 @@ public class FlutterBraintreePlugin implements FlutterPlugin, ActivityAware, Met
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
     if (activeResult == null)
       return false;
-    
+
     switch (requestCode) {
       case CUSTOM_ACTIVITY_REQUEST_CODE:
         if (resultCode == Activity.RESULT_OK) {
@@ -133,7 +131,7 @@ public class FlutterBraintreePlugin implements FlutterPlugin, ActivityAware, Met
           }
         } else if (resultCode == Activity.RESULT_CANCELED) {
           activeResult.success(null);
-        }  else {
+        } else {
           Exception error = (Exception) data.getSerializableExtra("error");
           activeResult.error("error", error.getMessage(), null);
         }

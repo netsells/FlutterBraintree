@@ -60,6 +60,23 @@ public class SwiftFlutterBraintreePlugin: NSObject, FlutterPlugin {
                 
             UIApplication.shared.keyWindow?.rootViewController?.present(existingDropInController, animated: true, completion: nil)
         }
+        else if call.method == "tokenizeCreditCard" {
+            let braintreeClient = BTAPIClient(authorization: string(for: "authorization", in: call))
+            let cardClient = BTCardClient(apiClient: braintreeClient)
+            let card = BTCard(
+                number: string(for: "cardNumber", in: call),
+                expirationMonth: string(for: "expirationMonth", in: call),
+                expirationYear: string(for: "expirationYear", in: call),
+                cvv: nil
+            )
+            cardClient.tokenizeCard(card) { (card, error) in 
+                if card != nil {
+                    result(String(card.nonce))
+                } else if (error != nil) {
+                    result(FlutterError(code: "braintree_error", message: "Failed to create card token", details: nil))
+                }
+            }
+        }
         else {
             result(FlutterMethodNotImplemented)
         }

@@ -23,7 +23,9 @@ class Braintree {
     assert(request != null);
     final result = await _kChannel.invokeMethod('tokenizeCreditCard', {
       'authorization': authorization,
-      'request': request.toJson(),
+      'cardNumber': request.cardNumber,
+      'expirationMonth': request.expirationMonth,
+      'expirationYear': request.expirationYear,
     });
     return BraintreePaymentMethodNonce.fromJson(result);
   }
