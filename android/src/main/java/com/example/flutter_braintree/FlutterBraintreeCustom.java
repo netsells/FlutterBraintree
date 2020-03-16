@@ -37,6 +37,7 @@ public class FlutterBraintreeCustom extends AppCompatActivity implements Payment
                 throw new Exception("Invalid request type: " + type);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Intent result = new Intent();
             result.putExtra("error", e);
             setResult(2, result);
