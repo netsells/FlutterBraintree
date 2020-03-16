@@ -50,4 +50,19 @@ class Braintree {
     });
     return BraintreePaymentMethodNonce.fromJson(result);
   }
+
+  static Future<BraintreePaymentMethodNonce> request3dsNonce(
+    String authorization,
+    String amount,
+    String email,
+    String nonce,
+  ) async {
+    final result = await _kChannel.invokeMethod('request3dsNonce', {
+      'authorization': authorization,
+      'amount': amount,
+      'email': email,
+      'nonce': nonce,
+    });
+    return BraintreePaymentMethodNonce.fromJson(result);
+  }
 }

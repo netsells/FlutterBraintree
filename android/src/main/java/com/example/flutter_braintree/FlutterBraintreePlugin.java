@@ -109,6 +109,15 @@ public class FlutterBraintreePlugin implements FlutterPlugin, ActivityAware, Met
       intent.putExtra("displayName", (String) request.get("displayName"));
       intent.putExtra("billingAgreementDescription", (String) request.get("billingAgreementDescription"));
       activity.startActivityForResult(intent, CUSTOM_ACTIVITY_REQUEST_CODE);
+    } else if (call.method.equals("request3dsNonce")) {
+      String authorization = call.argument("authorization");
+      Intent intent = new Intent(activity, FlutterBraintreeCustom.class);
+      intent.putExtra("type", "request3dsNonce");
+      intent.putExtra("authorization", (String) call.argument("authorization"));
+      intent.putExtra("amount", (String) call.argument("amount"));
+      intent.putExtra("nonce", (String) call.argument("nonce"));
+      intent.putExtra("email", (String) call.argument("email"));
+      activity.startActivityForResult(intent, CUSTOM_ACTIVITY_REQUEST_CODE);
     } else {
       result.notImplemented();
       activeResult = null;
