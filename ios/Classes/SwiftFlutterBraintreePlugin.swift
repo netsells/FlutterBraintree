@@ -10,9 +10,11 @@ public class SwiftFlutterBraintreePlugin: NSObject, FlutterPlugin {
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "flutter_braintree.drop_in", binaryMessenger: registrar.messenger())
+        let customChannel = FlutterMethodChannel(name: "flutter_braintree.custom", binaryMessenger: registrar.messenger())
         
         let instance = SwiftFlutterBraintreePlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+        registrar.addMethodCallDelegate(instance, channel: customChannel)
     }
 
     
@@ -61,17 +63,23 @@ public class SwiftFlutterBraintreePlugin: NSObject, FlutterPlugin {
             UIApplication.shared.keyWindow?.rootViewController?.present(existingDropInController, animated: true, completion: nil)
         }
         else if call.method == "tokenizeCreditCard" {
-            let braintreeClient = BTAPIClient(authorization: string(for: "authorization", in: call))
-            let cardClient = BTCardClient(apiClient: braintreeClient)
+            let braintreeClient = BTAPIClient(authorization: string(for: "authorization", in: call)!)
+            let cardClient = BTCardClient(apiClient: braintreeClient!)
             let card = BTCard(
-                number: string(for: "cardNumber", in: call),
-                expirationMonth: string(for: "expirationMonth", in: call),
-                expirationYear: string(for: "expirationYear", in: call),
-                cvv: string(for: "cvv", in: call),
+                number: string(for: "cardNumber", in: call)!,
+                expirationMonth: string(for: "expirationMonth", in: call)!,
+                expirationYear: string(for: "expirationYear", in: call)!,
+                cvv: string(for: "cvv", in: call)!
             )
             cardClient.tokenizeCard(card) { (card, error) in 
                 if card != nil {
-                    result(String(card.nonce))
+                    let pm: [String : Any] = [
+                        "nonce": card!.nonce,
+                        "typeLabel": card!.type,
+                        "description": card!.localizedDescription,
+                        "isDefault": card!.isDefault
+                    ]
+                    result(pm)
                 } else if (error != nil) {
                     result(FlutterError(code: "braintree_error", message: "Failed to create card token", details: nil))
                 }
