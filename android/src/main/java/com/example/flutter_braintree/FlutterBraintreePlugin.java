@@ -133,7 +133,7 @@ public class FlutterBraintreePlugin implements FlutterPlugin, ActivityAware, Met
           activeResult.success(null);
         } else {
           Exception error = (Exception) data.getSerializableExtra("error");
-          activeResult.error("error", error.getMessage(), null);
+          activeResult.error("error", error.getMessage(), error.toString());
         }
         activeResult = null;
         return true;
