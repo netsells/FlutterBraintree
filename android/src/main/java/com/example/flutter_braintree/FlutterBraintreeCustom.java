@@ -48,6 +48,12 @@ public class FlutterBraintreeCustom extends AppCompatActivity implements Payment
 
     protected void tokenizeCreditCard() {
         Intent intent = getIntent();
+        String cardNumber = intent.getStringExtra("cardNumber");
+        String expirationMonth = intent.getStringExtra("expirationMonth");
+        String expirationYear = intent.getStringExtra("expirationYear");
+        System.out.println(cardNumber);
+        System.out.println(expirationMonth);
+        System.out.println(expirationYear);
         CardBuilder builder = new CardBuilder()
                 .cardNumber(intent.getStringExtra("cardNumber"))
                 .expirationMonth(intent.getStringExtra("expirationMonth"))
