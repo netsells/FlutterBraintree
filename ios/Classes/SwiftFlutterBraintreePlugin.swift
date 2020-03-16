@@ -67,7 +67,7 @@ public class SwiftFlutterBraintreePlugin: NSObject, FlutterPlugin {
                 number: string(for: "cardNumber", in: call),
                 expirationMonth: string(for: "expirationMonth", in: call),
                 expirationYear: string(for: "expirationYear", in: call),
-                cvv: nil
+                cvv: string(for: "cvv", in: call),
             )
             cardClient.tokenizeCard(card) { (card, error) in 
                 if card != nil {

@@ -95,6 +95,7 @@ public class FlutterBraintreePlugin implements FlutterPlugin, ActivityAware, Met
       intent.putExtra("cardNumber", (String) call.argument("cardNumber"));
       intent.putExtra("expirationMonth", (String) call.argument("expirationMonth"));
       intent.putExtra("expirationYear", (String) call.argument("expirationYear"));
+      intent.putExtra("cvv", (String) call.argument("cvv"));
       activity.startActivityForResult(intent, CUSTOM_ACTIVITY_REQUEST_CODE);
     } else if (call.method.equals("requestPaypalNonce")) {
       String authorization = call.argument("authorization");

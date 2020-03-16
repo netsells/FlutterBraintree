@@ -26,6 +26,7 @@ class Braintree {
       'cardNumber': request.cardNumber,
       'expirationMonth': request.expirationMonth,
       'expirationYear': request.expirationYear,
+      'cvv': request.cvv,
     });
     return BraintreePaymentMethodNonce.fromJson(result);
   }
