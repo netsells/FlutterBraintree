@@ -37,7 +37,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `.symlinks/flutter/ios-release`)
   - flutter_braintree (from `.symlinks/plugins/flutter_braintree/ios`)
 
 SPEC REPOS:
@@ -47,7 +47,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: ".symlinks/flutter/ios-release"
   flutter_braintree:
     :path: ".symlinks/plugins/flutter_braintree/ios"
 
@@ -59,4 +59,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 89fadaa6b78385c7d4342612081c9d2b9aa1a913
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1
