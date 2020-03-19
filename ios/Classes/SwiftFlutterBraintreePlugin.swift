@@ -64,7 +64,7 @@ public class SwiftFlutterBraintreePlugin: NSObject, FlutterPlugin {
 
             UIApplication.shared.keyWindow?.rootViewController?.present(existingDropInController, animated: true, completion: nil)
         }
-        else if call.method == "tokenizeCreditCard" {
+        else if call.method == "request3dsNonce" {
 
             let braintreeClient = BTAPIClient(authorization: string(for: "authorization", in: call)!)
             let cardClient = BTCardClient(apiClient: braintreeClient!)
@@ -89,7 +89,7 @@ public class SwiftFlutterBraintreePlugin: NSObject, FlutterPlugin {
             }
         }
 
-        else if call.method == "request3dsNonce" {
+        else if call.method == "tokenizeCreditCard" {
             let authToken = string(for: "authorization", in: call)
             let amount =  Double(string(for: "amount", in: call) ?? "0.1")
             let email =  string(for: "email", in: call)
@@ -104,6 +104,14 @@ public class SwiftFlutterBraintreePlugin: NSObject, FlutterPlugin {
             threeDSecureRequest.email = email ?? ""
             threeDSecureRequest.nonce = nonce ?? ""
             threeDSecureRequest.threeDSecureRequestDelegate = self
+
+            let rootViewController:UIViewController! = UIApplication.shared.keyWindow?.rootViewController
+            if (rootViewController is UINavigationController) {
+                (rootViewController as! UINavigationController).pushViewController(btPaymentViewController,animated:true)
+            } else {
+                let navigationController:UINavigationController! = UINavigationController(rootViewController: btPaymentViewController)
+                rootViewController.present(navigationController, animated:true, completion:nil)
+            }
 
             flowRequest.startPaymentFlow(threeDSecureRequest) { (threeDSecureresult, error) in
                 guard let secureResult = threeDSecureresult as? BTThreeDSecureResult, let tokenizedCard = secureResult.tokenizedCard else {
